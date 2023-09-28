@@ -1,0 +1,103 @@
+index.html - The HTML structure of the to-do list.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive To-Do List</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+        <input type="text" id="newTask" placeholder="Add a new task...">
+        <ul id="taskList"></ul>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+styles.css - The CSS file to style the to-do list.
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+button {
+    background-color: #ff5733;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+script.js - The JavaScript file for handling the interactivity.
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const newTask = document.getElementById("newTask");
+    const taskList = document.getElementById("taskList");
+
+    function addTask() {
+        if (newTask.value.trim() !== "") {
+            const li = document.createElement("li");
+            li.innerHTML = `${newTask.value.trim()} <button class="delete">Delete</button>`;
+            taskList.appendChild(li);
+            newTask.value = "";
+            addDeleteListener(li);
+        }
+    }
+
+    function addDeleteListener(li) {
+        li.querySelector(".delete").addEventListener("click", function() {
+            li.remove();
+        });
+    }
+
+    newTask.addEventListener("keyup", function(event) {
+        if (event.keyCode === 13) { // Enter key pressed
+            addTask();
+        }
+    });
+
+    document.getElementById("taskList").addEventListener("click", function(event) {
+        if (event.target.classList.contains("delete")) {
+            event.target.parentElement.remove();
+        }
+    });
+});
